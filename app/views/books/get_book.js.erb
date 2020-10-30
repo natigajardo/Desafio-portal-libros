@@ -1,0 +1,21 @@
+$("#modalBookTitle").text("")
+$("#modal_autor").text("")
+$("#modal_body").text("")
+$("botons").text("")
+
+$("#modalBookTitle").text("<%= @book.title.html_safe %>")
+$("#modal_autor").text("Autor: <%= @book.author.html_safe %>")
+
+<% if @type == 'ver' %>
+  $("#modal_body").text("Resumen: <%= truncate(@book.review.html_safe, :length => 200) %>")
+<% elsif @type == 'reservar' %>  
+  $("#modalBookTitle").text("Reserva")
+  $("#modal_autor").text("Libro: <%= @book.title.html_safe %>")
+  $("#modal_body").text("¿Estás seguro de querer reservar este artículo?")
+
+  btn = '<%= link_to "Confirmar reserva", reserve_book_path(@book), remote: true, method: :post, :class => "btn btn-warning", data: { disable_with: "Su solicitud está siendo procesada..."} %>'
+
+  $("#botons").html(btn)
+<% end %>
+
+$("#modalBook").modal('show')

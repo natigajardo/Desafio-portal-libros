@@ -1,0 +1,20 @@
+<div>
+  <div class="card my-3" style="width: 100%;">
+    <div class="card-body">
+      <h5 class="card-title"><%= book.title %></h5>
+      <h6 class="card-subtitle mb-2 text-muted">Author: <%= book.author %> </h6>
+      <p class="card-text">Review: <%= truncate(book.review, :length => 200) %>...</p>
+      
+      <%= link_to "Ver detalle", get_book_info_path(book, 'ver'), remote: true, :class => "btn btn-info"%>
+
+      <% if book.status == 0 %>
+        <%= link_to "Reservar", get_book_info_path(book, 'reservar'), remote: true, :class => "btn btn-warning"%>
+      <% elsif book.status == 1 %>    
+        <%= link_to "Pagar", root_path, :class => "btn btn-success", :"data-toggle" => "modal",  :"data-target" => "#payBookModal" %>
+        <%= link_to "Quitar de reservados", unreserved_book_path(book), method: :post, remote: true, :class => "btn btn-dark text-white" %>
+      <% else %>  
+        <%= link_to "Eliminar", destroy_book_path(book), method: :delete, data: {confirm: "Estas seguro? No hay devolución."}, remote: true, :class => "btn btn-dark text-white"%>
+      <% end %>
+    </div>
+  </div>
+</div>
